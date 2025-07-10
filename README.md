@@ -1,19 +1,23 @@
-# AGRON - Decentralized Agro-Supply Chain Platform
+# 🌾 AGRON - Decentralized Agricultural Marketplace
 
-AGRON is a comprehensive decentralized agro-supply chain platform consisting of a native iOS app and Laravel backend API. The platform connects farmers, buyers, and transporters in a seamless ecosystem for crop trading and delivery.
+[![Swift](https://img.shields.io/badge/Swift-5.9-orange.svg)](https://swift.org)
+[![iOS](https://img.shields.io/badge/iOS-16.0+-blue.svg)](https://developer.apple.com/ios/)
+[![Laravel](https://img.shields.io/badge/Laravel-10.x-red.svg)](https://laravel.com)
+[![PHP](https://img.shields.io/badge/PHP-8.1+-purple.svg)](https://php.net)
+[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 
-## 🌾 Features
+**AGRON** is a comprehensive decentralized agricultural marketplace that connects farmers, buyers, and transporters in a seamless ecosystem for crop trading and delivery. Built with native iOS SwiftUI and Laravel backend.
 
-### Core Functionality
+## 🚀 Features
+
+### 🌱 Core Platform
 - **Multi-Role Authentication**: Farmer, Buyer, Transporter roles with specific permissions
 - **Crop Management**: Farmers can list, update, and manage their crop inventory
 - **Order System**: Complete order lifecycle from placement to delivery
 - **Delivery Tracking**: Real-time delivery job management for transporters
-- **Secure Authentication**: Token-based authentication with Laravel Sanctum
-- **Role-based Dashboards**: Customized interfaces for each user type
 - **Subscription Model**: Premium access with weekly ($3.99) and annual ($39.99) plans
 
-### iOS App Features
+### 📱 iOS App Features
 - **Native SwiftUI Interface**: Modern, responsive UI design
 - **Onboarding Flow**: User-friendly introduction to the platform
 - **Subscription Integration**: StoreKit 2 implementation with free trials
@@ -24,7 +28,7 @@ AGRON is a comprehensive decentralized agro-supply chain platform consisting of 
 - **Profile Management**: Update personal information and settings
 - **Secure Storage**: Keychain integration for token storage
 
-### Backend API Features
+### 🔧 Backend API Features
 - **RESTful API**: Comprehensive endpoints for all functionality
 - **Role-based Access Control**: Secure endpoints based on user roles
 - **File Upload**: Image upload for crop photos
@@ -34,7 +38,7 @@ AGRON is a comprehensive decentralized agro-supply chain platform consisting of 
 
 ## 🏗️ Architecture
 
-### iOS App (SwiftUI)
+### 📱 iOS App (SwiftUI)
 ```
 Agron/
 ├── AgronApp.swift              # Main app entry point
@@ -47,7 +51,8 @@ Agron/
 ├── Services/                   # Business logic and API
 │   ├── AuthManager.swift      # Authentication management
 │   ├── APIService.swift       # API communication
-│   └── KeychainService.swift  # Secure token storage
+│   ├── KeychainService.swift  # Secure token storage
+│   └── SubscriptionManager.swift # StoreKit 2 integration
 ├── Views/                      # SwiftUI views
 │   ├── Onboarding/            # Onboarding screens
 │   ├── Auth/                  # Login/Register screens
@@ -56,15 +61,10 @@ Agron/
 │   ├── Order/                 # Order management views
 │   ├── Profile/               # Profile settings
 │   └── Components/            # Reusable UI components
-├── Services/                   # Business logic and API
-│   ├── SubscriptionManager.swift  # StoreKit 2 subscription handling
-│   ├── AuthManager.swift      # Authentication management
-│   ├── APIService.swift       # API communication
-│   └── KeychainService.swift  # Secure token storage
 └── Assets.xcassets/           # App icons and images
 ```
 
-### Laravel Backend
+### 🖥️ Laravel Backend
 ```
 backend/
 ├── app/
@@ -89,11 +89,12 @@ backend/
 - **Backend**: PHP 8.1+, Composer, MySQL 8.0+
 - **Domain**: agron.farm (configured on Namecheap)
 
-### iOS App Setup
+### 📱 iOS App Setup
+
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd Agron
+   git clone https://github.com/yourusername/agron-app.git
+   cd agron-app
    ```
 
 2. **Open in Xcode**
@@ -114,30 +115,34 @@ backend/
    - Select iOS Simulator or device
    - Press Cmd+R to build and run
 
-### Backend Setup
-1. **Upload to Namecheap**
+### 🖥️ Backend Setup
+
+1. **Navigate to backend directory**
    ```bash
-   # Upload backend files to public_html/api/
+   cd backend-app
    ```
 
-2. **Database Setup**
+2. **Install dependencies**
    ```bash
-   # Create MySQL database
-   # Import migrations and seeders
+   composer install
+   ```
+
+3. **Environment setup**
+   ```bash
+   cp .env.example .env
+   php artisan key:generate
+   ```
+
+4. **Database configuration**
+   ```bash
+   # Edit .env file with your database credentials
    php artisan migrate
    php artisan db:seed
    ```
 
-3. **Environment Configuration**
+5. **Start development server**
    ```bash
-   # Configure .env file
-   cp .env.example .env
-   # Edit with your database credentials
-   ```
-
-4. **Generate Application Key**
-   ```bash
-   php artisan key:generate
+   php artisan serve
    ```
 
 ## 💰 Subscription Model
@@ -154,15 +159,16 @@ backend/
 - ✅ Premium customer support
 - ✅ Full platform access
 
-### Implementation
-- **StoreKit 2**: Modern Apple subscription framework
-- **Free Trials**: 3-day trial for weekly plan
-- **Restore Purchases**: Automatic purchase restoration
-- **Subscription Status**: Profile integration for management
-
 ## 📱 User Roles & Permissions
 
-### Buyer
+### 👨‍🌾 Farmer
+- ✅ Create and manage crop listings
+- ✅ Set prices and availability
+- ✅ Track orders and manage deliveries
+- ✅ Access market insights and analytics
+- ❌ Cannot place orders or accept delivery jobs
+
+### 🛒 Buyer
 - ✅ Browse available crops
 - ✅ Place orders
 - ✅ Track order status
@@ -171,7 +177,7 @@ backend/
 - ❌ Cannot create crop listings
 - ❌ Cannot accept delivery jobs
 
-### Transporter
+### 🚚 Transporter
 - ✅ View available delivery jobs
 - ✅ Accept delivery jobs
 - ✅ Update job status (pickup, delivered)
@@ -238,109 +244,18 @@ backend/
 - created_at, updated_at
 ```
 
-### Delivery Jobs Table
-```sql
-- id (primary key)
-- order_id (foreign key)
-- transporter_id (nullable)
-- status (open, accepted, picked_up, delivered, cancelled)
-- pickup_location, delivery_location
-- estimated/actual pickup/delivery dates
-- created_at, updated_at
-```
-
-## 🎨 UI/UX Design
-
-### Design Principles
-- **Modern Interface**: Clean, intuitive SwiftUI design
-- **Role-based Experience**: Customized interfaces for each user type
-- **Responsive Design**: Adapts to different screen sizes
-- **Accessibility**: VoiceOver and accessibility support
-- **Dark Mode Support**: Automatic theme adaptation
-
-### Color Scheme
-- **Primary**: Green (#34A853) - Agriculture theme
-- **Secondary**: Blue (#4285F4) - Trust and reliability
-- **Accent**: Orange (#FF9500) - Energy and growth
-- **Background**: Light gray (#F8F9FA) - Clean and modern
-
-### Typography
-- **Headings**: SF Pro Display Bold
-- **Body Text**: SF Pro Text Regular
-- **Captions**: SF Pro Text Medium
-
 ## 🧪 Testing
 
 ### iOS Testing
-```bash
-# Run unit tests
-xcodebuild test -scheme Agron -destination 'platform=iOS Simulator,name=iPhone 15'
-
-# Run UI tests
-xcodebuild test -scheme Agron -destination 'platform=iOS Simulator,name=iPhone 15' -only-testing:AgronUITests
-```
+- **Unit Tests**: Core functionality testing
+- **UI Tests**: User interface testing
+- **StoreKit Testing**: Subscription flow testing
+- **Integration Tests**: API integration testing
 
 ### Backend Testing
-```bash
-# Run PHPUnit tests
-php artisan test
-
-# Run specific test suite
-php artisan test --filter AuthTest
-
-# Generate coverage report
-php artisan test --coverage
-```
-
-## 📈 Performance
-
-### iOS App Optimization
-- **Lazy Loading**: Images and data loaded on demand
-- **Caching**: Local storage for frequently accessed data
-- **Background Processing**: Efficient API calls
-- **Memory Management**: Proper resource cleanup
-
-### Backend Optimization
-- **Database Indexing**: Optimized queries with proper indexes
-- **Caching**: Redis caching for frequently accessed data
-- **API Pagination**: Efficient data loading
-- **Image Optimization**: Compressed image storage
-
-## 🚀 Deployment
-
-### iOS App Store
-1. **Archive Build**
-   ```bash
-   # Archive for App Store
-   xcodebuild archive -scheme Agron -archivePath Agron.xcarchive
-   ```
-
-2. **Upload to App Store Connect**
-   - Use Xcode Organizer
-   - Configure app metadata
-   - Submit for review
-
-### Backend Deployment (Namecheap)
-1. **Upload Files**
-   ```bash
-   # Upload to public_html/api/
-   ```
-
-2. **Database Setup**
-   ```bash
-   # Create MySQL database
-   # Import schema and data
-   ```
-
-3. **Environment Configuration**
-   ```bash
-   # Configure .env file
-   # Set production settings
-   ```
-
-4. **SSL Certificate**
-   - Install SSL certificate for agron.farm
-   - Configure HTTPS redirects
+- **Feature Tests**: API endpoint testing
+- **Unit Tests**: Model and service testing
+- **Database Tests**: Migration and seeder testing
 
 ## 📋 Sample Data
 
@@ -355,77 +270,61 @@ php artisan test --coverage
 - Fresh Tomatoes, Hot Peppers, Yam Tubers
 - Plantain, Fresh Beans, Cocoa Beans, Groundnuts
 
-## ⚙️ Configuration
+## 🚀 Deployment
 
-### iOS Configuration
-- **API Base URL**: Update in `APIService.swift`
-- **Bundle Identifier**: com.agron.app
-- **Minimum iOS Version**: 16.0
-- **Target Devices**: iPhone, iPad
+### iOS App Store
+1. **Archive Build**
+   ```bash
+   xcodebuild archive -scheme Agron -archivePath Agron.xcarchive
+   ```
 
-### Backend Configuration
-- **PHP Version**: 8.1+
-- **Database**: MySQL 8.0+
-- **Web Server**: Apache/Nginx
-- **SSL**: Required for production
+2. **Upload to App Store Connect**
+   - Use Xcode Organizer
+   - Configure app metadata
+   - Submit for review
 
-## 🔧 Development
+### Backend Deployment (Google Cloud Run)
+1. **Build Docker Image**
+   ```bash
+   docker build -t agron-backend .
+   ```
 
-### Local Development
-1. **iOS**: Use Xcode with iOS Simulator
-2. **Backend**: Use Laravel Valet or Docker
-3. **Database**: Local MySQL instance
-4. **API Testing**: Postman or curl
+2. **Deploy to Cloud Run**
+   ```bash
+   gcloud run deploy agron-backend --image agron-backend --platform managed
+   ```
 
-### Code Standards
-- **iOS**: Swift style guide compliance
-- **Backend**: PSR-12 coding standards
-- **Git**: Conventional commit messages
-- **Documentation**: Comprehensive inline comments
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
 ## 📞 Support
 
 ### Technical Support
 - **Email**: support@agron.farm
 - **Documentation**: https://agron.farm/docs
-- **API Documentation**: https://agron.farm/api/docs
+- **Issues**: [GitHub Issues](https://github.com/yourusername/agron-app/issues)
 
-### Bug Reports
-- **GitHub Issues**: Report bugs and feature requests
-- **Email**: bugs@agron.farm
+### Community
+- **Discord**: [Join our community](https://discord.gg/agron)
+- **Twitter**: [@agron_app](https://twitter.com/agron_app)
+- **LinkedIn**: [Agron Company](https://linkedin.com/company/agron)
 
-## 📄 License
+## 🙏 Acknowledgments
 
-This project is proprietary software. All rights reserved.
-
-## 🤝 Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Make your changes
-4. Add tests for new functionality
-5. Submit a pull request
-
-## 📈 Roadmap
-
-### Phase 1 (Current)
-- ✅ Basic authentication and user management
-- ✅ Crop listing and management
-- ✅ Order placement and tracking
-- ✅ Delivery job management
-
-### Phase 2 (Planned)
-- 🔄 Real-time notifications
-- 🔄 Payment integration
-- 🔄 Advanced analytics
-- 🔄 Mobile app for Android
-
-### Phase 3 (Future)
-- 📋 Blockchain integration
-- 📋 AI-powered crop recommendations
-- 📋 Weather integration
-- 📋 Advanced logistics optimization
+- **Apple**: For SwiftUI and StoreKit 2
+- **Laravel**: For the amazing PHP framework
+- **Community**: For feedback and contributions
+- **Farmers**: For inspiring this platform
 
 ---
 
-**AGRON** - Connecting farmers, buyers, and transporters in a decentralized agro-supply chain ecosystem. 
+**Made with ❤️ for the agricultural community** 
