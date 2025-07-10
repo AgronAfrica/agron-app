@@ -1,0 +1,128 @@
+{
+  "identifier" : "AGRON_SUBSCRIPTIONS",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "AGRON_APP_ID",
+    "_developerTeamID" : "YOUR_TEAM_ID",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 738864000.0,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "AGRON_ACCESS",
+      "localizations" : [
+        {
+          "description" : "Access to all AGRON features",
+          "displayName" : "AGRON Access",
+          "locale" : "en_US"
+        }
+      ],
+      "name" : "AGRON_ACCESS",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "3.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "agron_weekly",
+          "introductoryOffer" : {
+            "internalID" : "agron_weekly_intro",
+            "numberOfPeriods" : 1,
+            "paymentMode" : "free",
+            "subscriptionPeriod" : "P3D"
+          },
+          "localizations" : [
+            {
+              "description" : "Weekly access to all AGRON features",
+              "displayName" : "Weekly Plan",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "agron_weekly",
+          "recurringSubscriptionPeriod" : "P1W",
+          "referenceName" : "Weekly Plan",
+          "subscriptionGroupID" : "AGRON_ACCESS",
+          "type" : "RecurringSubscription"
+        },
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "39.99",
+          "familyShareable" : false,
+          "groupNumber" : 2,
+          "internalID" : "agron_yearly",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Annual access to all AGRON features",
+              "displayName" : "Annual Plan",
+              "locale" : "en_US"
+            }
+          ],
+          "productID" : "agron_yearly",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual Plan",
+          "subscriptionGroupID" : "AGRON_ACCESS",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+} 
