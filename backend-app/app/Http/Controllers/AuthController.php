@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\ValidationException;
+use Illuminate\Support\Facades\Log;
 
 class AuthController extends Controller
 {
@@ -41,20 +42,23 @@ class AuthController extends Controller
 
     public function login(Request $request)
     {
+        Log::info('Login attempt started', ['email' => $request->email]);
         $request->validate([
             'email' => 'required|string|email',
             'password' => 'required|string',
         ]);
-
+        Log::info('Login validation passed', ['email' => $request->email]);
         if (!Auth::attempt($request->only('email', 'password'))) {
+            Log::warning('Login failed: invalid credentials', ['email' => $request->email]);
             throw ValidationException::withMessages([
                 'email' => ['The provided credentials are incorrect.'],
             ]);
         }
-
+        Log::info('Login credentials valid', ['email' => $request->email]);
         $user = User::where('email', $request->email)->firstOrFail();
+        Log::info('User found', ['user_id' => $user->id]);
         $token = $user->createToken('auth_token')->plainTextToken;
-
+        Log::info('Token created', ['user_id' => $user->id]);
         return response()->json([
             'message' => 'Login successful',
             'user' => $user,

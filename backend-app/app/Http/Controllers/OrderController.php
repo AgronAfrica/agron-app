@@ -36,6 +36,29 @@ class OrderController extends Controller
         return response()->json($orders);
     }
 
+    public function userOrders(Request $request)
+    {
+        $user = $request->user();
+        $query = Order::with(['crop', 'user']);
+
+        // Filter orders based on user role
+        if ($user->isFarmer()) {
+            $query->whereHas('crop', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            });
+        } elseif ($user->isBuyer()) {
+            $query->where('user_id', $user->id);
+        } elseif ($user->isTransporter()) {
+            $query->whereHas('deliveryJob', function ($q) use ($user) {
+                $q->where('transporter_id', $user->id);
+            });
+        }
+
+        $orders = $query->latest()->get();
+
+        return response()->json($orders);
+    }
+
     public function show(Order $order)
     {
         $user = request()->user();
@@ -163,6 +186,29 @@ class OrderController extends Controller
 
         return response()->json([
             'message' => 'Order cancelled successfully',
+        ]);
+    }
+
+    public function updateStatus(Request $request, Order $order)
+    {
+        $user = $request->user();
+
+        // Check authorization - only farmer, buyer, or assigned transporter can update status
+        if (!$user->isFarmer() && $order->user_id !== $user->id && $order->transporter_id !== $user->id) {
+            return response()->json([
+                'message' => 'Unauthorized',
+            ], 403);
+        }
+
+        $request->validate([
+            'status' => 'required|in:pending,confirmed,shipped,delivered,cancelled',
+        ]);
+
+        $order->update(['status' => $request->status]);
+
+        return response()->json([
+            'message' => 'Order status updated successfully',
+            'order' => $order->load(['crop', 'user']),
         ]);
     }
 } 
